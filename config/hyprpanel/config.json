@@ -1,0 +1,86 @@
+{
+  "bar.customModules.storage.paths": ["/"],
+
+  "theme.bar.background": "#00000000",
+  "theme.bar.buttons.background": "#2f6aaa",
+  "theme.bar.buttons.hover": "#1865bb",
+  "theme.bar.buttons.icon": "#c3c5c9",
+  "theme.bar.buttons.text": "#c3c5c9",
+  "theme.bar.buttons.media.background": "#4d74ac",
+  "theme.bar.buttons.media.icon": "#c3c5c9",
+  "theme.bar.buttons.media.text": "#c3c5c9",
+  "theme.bar.menus.background": "#11193f",
+  "theme.bar.menus.text": "#c3c5c9",
+  "theme.bar.menus.border.color": "#2f6aaa",
+
+  "theme.bar.buttons.clock.icon": "#89b4fa",
+  "theme.bar.buttons.clock.text": "#89b4fa",
+
+  "theme.bar.buttons.windowtitle.icon": "#89b4fa",
+  "theme.bar.buttons.windowtitle.text": "#89b4fa",
+
+  "theme.bar.buttons.workspaces.active": "#89b4fa",
+  "theme.bar.buttons.workspaces.occupied": "#74c7ec",
+  "theme.bar.buttons.workspaces.available": "#4d74ac",
+  "theme.bar.buttons.workspaces.numbered_active_underline_color": "#89b4fa",
+  "theme.bar.buttons.workspaces.numbered_active_highlighted_text_color": "#11193f",
+
+  "theme.bar.buttons.volume.icon": "#74c7ec",
+  "theme.bar.buttons.volume.text": "#74c7ec",
+
+  "theme.bar.buttons.network.icon": "#89b4fa",
+  "theme.bar.buttons.network.text": "#89b4fa",
+
+  "theme.bar.buttons.battery.icon": "#74c7ec",
+  "theme.bar.buttons.battery.text": "#74c7ec",
+
+  "theme.bar.buttons.dashboard.icon": "#89b4fa",
+
+  "theme.bar.buttons.bluetooth.icon": "#89dceb",
+  "theme.bar.buttons.bluetooth.text": "#89dceb",
+
+  "theme.bar.buttons.notifications.total": "#89b4fa",
+  "theme.bar.buttons.notifications.icon": "#89b4fa",
+
+  "theme.bar.buttons.modules.ram.icon": "#74c7ec",
+  "theme.bar.buttons.modules.ram.text": "#74c7ec",
+  "theme.bar.buttons.modules.cpu.icon": "#89b4fa",
+  "theme.bar.buttons.modules.cpu.text": "#89b4fa",
+  "theme.bar.buttons.modules.storage.icon": "#74c7ec",
+  "theme.bar.buttons.modules.storage.text": "#74c7ec",
+  "theme.bar.buttons.modules.netstat.icon": "#89dceb",
+  "theme.bar.buttons.modules.netstat.text": "#89dceb",
+  "theme.bar.buttons.modules.updates.icon": "#89b4fa",
+  "theme.bar.buttons.modules.updates.text": "#89b4fa",
+  "theme.bar.buttons.modules.kbLayout.icon": "#89dceb",
+  "theme.bar.buttons.modules.kbLayout.text": "#89dceb",
+  "theme.bar.buttons.modules.weather.icon": "#74c7ec",
+  "theme.bar.buttons.modules.weather.text": "#74c7ec",
+  "theme.bar.buttons.modules.power.icon": "#89b4fa",
+  "theme.bar.buttons.modules.power.border": "#89b4fa",
+
+  "theme.bar.menus.buttons.active": "#89b4fa",
+  "theme.bar.menus.buttons.default": "#74c7ec",
+  "theme.bar.menus.iconbuttons.active": "#89b4fa",
+  "theme.bar.menus.iconbuttons.passive": "#74c7ec",
+
+  "theme.bar.menus.menu.clock.time.time": "#89b4fa",
+  "theme.bar.menus.menu.clock.calendar.currentday": "#89b4fa",
+  "theme.bar.menus.menu.clock.calendar.paginator": "#89b4fa",
+  "theme.bar.menus.menu.clock.calendar.weekdays": "#89b4fa",
+  "theme.bar.menus.menu.clock.weather.hourly.temperature": "#74c7ec",
+  "theme.bar.menus.menu.clock.weather.hourly.icon": "#74c7ec",
+  "theme.bar.menus.menu.clock.weather.hourly.time": "#74c7ec",
+  "theme.bar.menus.menu.clock.weather.stats": "#74c7ec",
+  "theme.bar.menus.menu.clock.weather.icon": "#74c7ec",
+
+  "theme.bar.menus.menu.volume.label.color": "#74c7ec",
+
+  "theme.bar.menus.menu.notifications.label": "#89b4fa",
+  "theme.bar.menus.menu.notifications.switch.enabled": "#89b4fa",
+
+  "theme.bar.menus.menu.network.iconbuttons.active": "#89b4fa",
+
+  "theme.bar.menus.menu.dashboard.controls.volume.background": "#2f6aaa",
+  "theme.bar.menus.menu.dashboard.controls.notifications.background": "#4d74ac"
+}

@@ -1,0 +1,20 @@
+# Backup directory created by install.sh
+.backup/
+
+# Zsh generated files
+config/zsh/.zcompdump*
+config/zsh/.zsh_history
+
+# Sensitive / machine-specific files
+config/gh/hosts.yml
+
+# Hypr fonts (large binary assets)
+config/hypr/Fonts/
+
+# Wal cache (generated at runtime)
+config/wal/
+
+# Editor / OS noise
+.DS_Store
+*~
+*.swp
