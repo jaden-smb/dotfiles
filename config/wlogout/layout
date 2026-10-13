@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "killall wlogout && sleep 0.15 && sh $HOME/Scripts/lockscreen",
+    "action" : "killall wlogout; hyprlock",
     "text" : "Lock",
     "keybind" : "l"
 }
@@ -12,7 +12,7 @@
 }
 {
     "label" : "logout",
-    "action" : "killall wlogout && sleep 0.25 && hyprctl dispatch exit",
+    "action" : "killall wlogout && sleep 0.25 && hyprctl dispatch 'hl.dsp.exit()'",
     "text" : "Logout",
     "keybind" : "e"
 }

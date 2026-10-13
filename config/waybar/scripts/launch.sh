@@ -1,7 +1,5 @@
-#!/bin/bash
-
-killall -9 waybar 
-killall -9 swaync
-
+#!/usr/bin/env bash
+# Restart the bar gently; leave the notification daemon's history intact.
+pkill -x waybar || true
 waybar &
-swaync &
+pgrep -x swaync >/dev/null || swaync &

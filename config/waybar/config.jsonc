@@ -8,13 +8,15 @@
   "passthrough": false,
   "fixed-center": true,
   "modules-left": [
-	  "custom/launcher",
-	  "hyprland/workspaces",
-	  "custom/cava",
-	  "custom/notification",
-	  "hyprland/window"
+    "custom/launcher",
+    "hyprland/workspaces",
+    "cava",
+    "custom/notification",
+    "hyprland/window"
   ],
-  "modules-center": ["mpris"],
+  "modules-center": [
+    "mpris"
+  ],
   "modules-right": [
     "pulseaudio",
     "memory",
@@ -27,13 +29,11 @@
     "battery",
     "custom/power"
   ],
-
   "custom/launcher": {
-      "tooltip": false,
-      "on-click": "rofi -show drun",
-      "format": ""
+    "tooltip": false,
+    "on-click": "rofi -show drun",
+    "format": ""
   },
-
   "mpris": {
     "format": "{player_icon} {dynamic}",
     "format-paused": "{status_icon} {dynamic}",
@@ -54,10 +54,9 @@
     "active-only": false
   },
   "hyprland/window": {
-    "format": "{title}",
+    "format": "{}",
     "max-length": 20
   },
-
   "tray": {
     "show-passive-items": true,
     "spacing": 10
@@ -94,35 +93,31 @@
     "format": "{icon}{volume}%",
     "format-muted": "  muted",
     "format-icons": {
-	    "headphone": "",
-	    "default": [" ", " ", " "]
-	    },
+      "headphone": "",
+      "default": [
+        " ",
+        " ",
+        " "
+      ]
+    },
     "on-click": "pavucontrol",
-    "on-click-right": "pamixer --toggle-mute",
-    "on-scroll-up": "pamixer --increase 2",
-    "on-scroll-down": "pamixer --decrease 2"
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
   },
-
   "custom/sep": {
     "format": "|",
     "tooltip": false
   },
-
   "custom/power": {
     "tooltip": false,
     "on-click": "$HOME/.config/rofi/scripts/powermenu.sh",
     "format": "⏻"
   },
-
-  "custom/cava": {
-    "format": "{}",
-    "exec": "~/.config/waybar/scripts/cava.sh"
-  },
-
   "custom/notification": {
     "escape": true,
     "exec": "swaync-client -swb",
-    "exec-if": "which swaync-client",
+    "exec-if": "command -v swaync-client",
     "format": "{icon}{text}",
     "format-icons": {
       "none": "󰅺",
@@ -135,14 +130,12 @@
     "return-type": "json",
     "tooltip": false
   },
-
   "network": {
-    "interface": "wlo1",
     "format": "󰖪 disconnected",
     "format-wifi": "󰖩 {essid} ({signalStrength}%)",
     "format-ethernet": "󰈀 {ipaddr}",
     "format-disconnected": "󰖪 disconnected",
-    "tooltip-format-wifi": "{essid}\n{ipaddr}\nSignal: {signalStrength}%\nFreq: {frequency}MHz",
+    "tooltip-format-wifi": "{essid}\n{ipaddr}\nSignal: {signalStrength}%\nFreq: {frequency}GHz",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}",
     "tooltip-format-disconnected": "Disconnected",
     "max-length": 30,
@@ -150,7 +143,7 @@
   },
   "bluetooth": {
     "format": " {status}",
-    "format-connected" : " {device-alias}",
+    "format-connected": " {device-alias}",
     "tooltip": true,
     "on-click": "blueberry"
   },
@@ -164,6 +157,29 @@
     "format-plugged": " {capacity}%",
     "format-alt": "{time} {icon}",
     "format-full": " {capacity}%",
-    "format-icons": ["", "", "", "", ""]
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "cava": {
+    "bars": 12,
+    "framerate": 30,
+    "method": "pipewire",
+    "source": "auto",
+    "format-icons": [
+      "▁",
+      "▂",
+      "▃",
+      "▄",
+      "▅",
+      "▆",
+      "▇",
+      "█"
+    ],
+    "hide_on_silence": true
   }
 }

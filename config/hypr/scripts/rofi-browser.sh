@@ -8,15 +8,15 @@ Tor Browser
 Chromium"
 
 # Show the browsers in Rofi and get the selected browser
-selected=$(printf "%s\n" "$browsers" | rofi -show -dmenu -p "Choose browser")
+selected=$(printf "%s\n" "$browsers" | rofi -dmenu -p "Choose browser")
 
 # Launch the selected browser
 case "$selected" in
     "Brave Web Browser")
-        brave --enable-features=WaylandWindowDecorations --ozone-platform-hint=wayland --enable-wayland-ime --password-store=basic &
+        brave --ozone-platform=wayland --enable-wayland-ime &
         ;;
       "Brave Web Browser (nightly)")
-        brave-nightly --enable-features=WaylandWindowDecorations --ozone-platform-hint=wayland --enable-wayland-ime --password-store=basic &
+        brave-nightly --ozone-platform=wayland --enable-wayland-ime &
         ;;
     Firefox)
         firefox &
@@ -25,7 +25,7 @@ case "$selected" in
         torbrowser-launcher &
         ;;
     Chromium)
-        chromium --enable-features=WaylandWindowDecorations --ozone-platform-hint=wayland --enable-wayland-ime --password-store=basic &
+        chromium --ozone-platform=wayland --enable-wayland-ime &
         ;;
     *)
         printf "No browser selected or unknown choice.\n"

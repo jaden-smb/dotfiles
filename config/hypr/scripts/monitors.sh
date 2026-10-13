@@ -30,12 +30,12 @@ if [ -z "$EXISTS" ]; then
             ;;
         "Cancel" | "" )
             hyprctl output remove "$MON"
-            rm -f $HOME/.cache/wofi-dmenu
+            rm -f -- "${XDG_CACHE_HOME:-$HOME/.cache}/wofi-dmenu"
             exit 0
             ;;
         *)
             hyprctl output remove "$MON"
-            rm -f $HOME/.cache/wofi-dmenu
+            rm -f -- "${XDG_CACHE_HOME:-$HOME/.cache}/wofi-dmenu"
             exit 1
             ;;
     esac
@@ -47,7 +47,8 @@ if [ -z "$EXISTS" ]; then
     fi
 
     # Set up virtual monitor
-    hyprctl keyword monitor "$MON,$RES,$POSITION,$SCALE"
+    hyprctl eval "hl.monitor({ output = '$MON', mode = '$RES', position = '$POSITION', scale = $SCALE })"
+    bash "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/scripts/wallpaper.sh" --restore
 
     # Remove "auto-" prefix using sed
     POS_TEXT=$(printf "%s" "$POSITION" | sed 's/^auto-//')

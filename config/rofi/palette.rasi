@@ -1,0 +1,23 @@
+* {
+    background: #1e1e2e;
+    foreground: #cdd6f4;
+    normal-background: @background;
+    normal-foreground: @foreground;
+    active-background: #89b4fa;
+    active-foreground: @foreground;
+    urgent-background: #f38ba8;
+    urgent-foreground: @foreground;
+    selected-normal-background: #89b4fa;
+    selected-normal-foreground: @foreground;
+    selected-active-background: #89b4fa;
+    selected-active-foreground: @foreground;
+    selected-urgent-background: #f38ba8;
+    selected-urgent-foreground: @foreground;
+    alternate-normal-background: @background;
+    alternate-normal-foreground: @foreground;
+    border-color: #585b70;
+}
+window { background-color: @background; }
+entry, prompt, textbox-prompt-colon { text-color: @foreground; }
+element.normal.normal { background-color: @background; text-color: @foreground; }
+element.selected.normal { background-color: @selected-normal-background; text-color: @foreground; }

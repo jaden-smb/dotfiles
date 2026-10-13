@@ -1,6 +1,8 @@
 #!/bin/bash
 # Play notification sound
-paplay "$HOME/Scripts/notification.wav" &
+if [ -r "$HOME/Scripts/notification.wav" ]; then
+    paplay "$HOME/Scripts/notification.wav" &
+fi
 
 # If Teams is on a different monitor than the focused one,
 # also show a native Hyprland popup on the focused monitor

@@ -1,6 +1,6 @@
 [Desktop Entry]
-Exec=create-template
-Name=create-template
-Comment=Create Empty File for Nautilus "New Document" Menu
+Exec=sh -c "mkdir -p ~/Templates && touch ~/Templates/'Empty File'"
+Name=Create document template
+Comment=Create an empty document template for the file manager
 Type=Application
 Icon=nautilus

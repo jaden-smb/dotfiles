@@ -11,10 +11,10 @@ config/gh/hosts.yml
 # Hypr fonts (large binary assets)
 config/hypr/Fonts/
 
-# Wal cache (generated at runtime)
-config/wal/
+# Palette templates are tracked; generated palettes belong in ~/.cache/wal.
 
 # Editor / OS noise
 .DS_Store
 *~
 *.swp
+__pycache__/

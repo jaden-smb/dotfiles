@@ -4,7 +4,9 @@ set -euo pipefail
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$DOTFILES/config"
 HOME_DIR="$DOTFILES/home"
-BACKUP_DIR="$DOTFILES/.backup/$(date +%Y%m%d_%H%M%S)"
+BACKUP_DIR="$DOTFILES/.backup/$(date +%Y%m%d_%H%M%S_%N)"
+TARGET_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}"
+TARGET_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -41,52 +43,22 @@ backup_and_link() {
 
 # ── ~/.config entries ────────────────────────────────────────────────────────
 
-CONFIG_ITEMS=(
-    alacritty
-    aliasrc
-    autostart
-    code-flags.conf
-    gh
-    gnome-layout-switcher.conf
-    gtk-3.0
-    gtk-4.0
-    htop
-    hypr
-    hyprpanel
-    kitty
-    mimeapps.list
-    neofetch
-    nvim
-    nwg-look
-    pavucontrol.ini
-    qt5ct
-    qt6ct
-    rofi
-    swaync
-    user-dirs.dirs
-    user-dirs.locale
-    wal
-    waybar
-    wlogout
-    wofi
-    xdg-terminals.list
-    xsettingsd
-    yay
-    zsh
-)
+mkdir -p "$TARGET_CONFIG"
 
-mkdir -p "$HOME/.config"
-
+# Link the entries actually present, including future configuration directories.
 echo ""
-echo "==> Linking ~/.config entries"
-for item in "${CONFIG_ITEMS[@]}"; do
-    src="$CONFIG_DIR/$item"
-    if [ ! -e "$src" ]; then
-        warn "not found in dotfiles, skipping: $item"
-        continue
-    fi
-    backup_and_link "$src" "$HOME/.config/$item"
+echo "==> Linking config entries"
+for src in "$CONFIG_DIR"/*; do
+    [ -e "$src" ] || continue
+    backup_and_link "$src" "$TARGET_CONFIG/${src##*/}"
 done
+
+# Rofi can start before the first wallpaper palette is generated.
+# Never overwrite an existing palette during installation.
+mkdir -p "$TARGET_CACHE/wal"
+if [ ! -e "$TARGET_CACHE/wal/colors-rofi-dark.rasi" ]; then
+    cp "$CONFIG_DIR/rofi/palette.rasi" "$TARGET_CACHE/wal/colors-rofi-dark.rasi"
+fi
 
 # ── Home dotfiles ────────────────────────────────────────────────────────────
 

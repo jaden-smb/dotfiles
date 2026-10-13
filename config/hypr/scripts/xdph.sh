@@ -1,7 +1,4 @@
 #!/bin/sh
-sleep 1
-killall -e xdg-desktop-portal-hyprland
-killall xdg-desktop-portal
-/usr/lib/xdg-desktop-portal-hyprland &
-sleep 2
-/usr/lib/xdg-desktop-portal &
+# Manual portal recovery. Normal startup uses D-Bus activation.
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE
+exec systemctl --user restart xdg-desktop-portal-hyprland.service xdg-desktop-portal.service

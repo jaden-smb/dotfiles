@@ -1,3 +1,8 @@
 @import 'colors/one-dark.css';
 @import 'themes/nova-dark/notifications.css';
 @import 'themes/nova-dark/central_control.css';
+
+:root {
+    --notification-icon-size: 48px;
+    --mpris-album-art-icon-size: 96px;
+}
