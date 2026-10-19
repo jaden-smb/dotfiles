@@ -10,22 +10,21 @@
   "modules-left": [
     "custom/launcher",
     "hyprland/workspaces",
-    "cava",
     "custom/notification",
     "hyprland/window"
   ],
-  "modules-center": [
-    "mpris"
-  ],
+  "modules-center": [],
   "modules-right": [
     "pulseaudio",
     "memory",
     "cpu",
+    "hyprland/language",
     "tray",
     "network",
     "bluetooth",
     "clock",
     "clock#simpleclock",
+    "power-profiles-daemon",
     "battery",
     "custom/power"
   ],
@@ -56,6 +55,13 @@
   "hyprland/window": {
     "format": "{}",
     "max-length": 20
+  },
+  "hyprland/language": {
+    "format": " {}",
+    "format-en": "US",
+    "format-es": "LATAM",
+    "on-click": "hyprctl switchxkblayout all next",
+    "tooltip": true
   },
   "tray": {
     "show-passive-items": true,
@@ -139,13 +145,25 @@
     "tooltip-format-ethernet": "{ifname}: {ipaddr}",
     "tooltip-format-disconnected": "Disconnected",
     "max-length": 30,
-    "on-click": "kitty -e nmtui"
+    "on-click": "ghostty -e nmtui"
   },
   "bluetooth": {
     "format": " {status}",
-    "format-connected": " {device-alias}",
+    "format-no-controller": "",
+    "format-connected": " {device_alias}",
     "tooltip": true,
-    "on-click": "blueberry"
+    "on-click": "blueman-manager"
+  },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nClick to switch profile",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
   },
   "battery": {
     "states": {

@@ -1,13 +1,13 @@
 # dotfiles
 
-Personal configuration files for my Hyprland desktop on Manjaro Linux.
+Personal configuration files for my Hyprland desktop on Arch Linux.
 
 ## Stack
 
 | Role | Tool |
 |---|---|
 | Compositor | [Hyprland](https://hyprland.org) |
-| Terminal | [Kitty](https://sw.kovidgoyal.net/kitty/) |
+| Terminal | [Ghostty](https://ghostty.org/) |
 | Shell | Zsh + Powerlevel10k |
 | Bar | [Waybar](https://github.com/Alexays/Waybar) |
 | Launcher | [Rofi](https://github.com/davatorium/rofi) / [Wofi](https://hg.sr.ht/~scoopta/wofi) |
@@ -28,6 +28,7 @@ Clone the repo anywhere and run the installer:
 ```bash
 git clone https://github.com/jaden-smb/dotfiles.git
 cd dotfiles
+bash install.sh --dry-run
 bash install.sh
 ```
 
@@ -38,10 +39,12 @@ bash install.sh
 - Symlink `home/.zshenv` and `home/.zshrc` into `~/`
 
 To re-run safely at any time — already-correct symlinks are skipped.
+The dry run does not write files. Review the entries before a first install:
+`gtk-3.0/bookmarks`, monitor names, and MIME defaults reflect this machine.
 
-This configuration targets **Hyprland 0.56.2**, the latest stable release checked
-on 2026-10-13, and uses `config/hypr/hyprland.lua`. Update your distribution first
-(`sudo pacman -Syu` on Manjaro/Arch), then verify `hyprctl version` before switching.
+This configuration was inspected on **Arch Linux** with **Hyprland 0.56.2-4**
+and uses `config/hypr/hyprland.lua`. Verify that the installed Hyprland
+supports this Lua configuration before starting a new session.
 The installer links files; it does not install or upgrade packages. See the
 [upstream releases](https://github.com/hyprwm/Hyprland/releases) and
 [Lua configuration documentation](https://wiki.hypr.land/configuring/core/).
@@ -57,9 +60,9 @@ Use current packages from your distribution for these components:
 | Component | Required commands / packages |
 |---|---|
 | Desktop | Hyprland, Hyprlock, hyprpolkitagent, xdg-desktop-portal-hyprland, xdg-desktop-portal |
-| Bar and notifications | Waybar with Cava support, Swaync, PipeWire, WirePlumber (`wpctl`) |
+| Bar and notifications | Waybar, Swaync, PipeWire, WirePlumber (`wpctl`) |
 | Wallpaper and picker | `awww`, `awww-daemon`, ImageMagick 7 (`magick`), Wofi, pywal16 (`wal`), util-linux (`flock`) |
-| Launchers and apps | Rofi with Wayland support, Kitty, Thunar, Wlogout, Fcitx5, Alacritty (optional) |
+| Launchers and apps | Rofi with Wayland support, Ghostty, Thunar, Wlogout, Fcitx5, Kitty/Alacritty (optional) |
 | Screenshots and controls | `grim`, `slurp`, `wl-copy`, `brightnessctl`, `playerctl`, `jq` |
 | Shell | Zsh, Oh My Zsh, Powerlevel10k, `eza`, `zoxide`, Fastfetch |
 
@@ -84,14 +87,12 @@ The Hyprlock font and optional profile image can be changed in `hyprlock.conf`.
 
 ### Updated integrations
 
-- NVIDIA uses the two environment variables in the
-  [current NVIDIA guide](https://wiki.hypr.land/Nvidia/); old atomic/GBM workarounds
-  are removed and hardware cursors use automatic mode. For another GPU, remove
-  the NVIDIA-specific `hl.env` lines.
+- The live Lua configuration leaves graphics driver selection to the installed
+  drivers and requests automatic hardware cursor behavior.
 - Portal services use D-Bus activation after the Wayland environment is imported.
   `config/hypr/scripts/xdph.sh` is a manual systemd portal recovery command.
-- Waybar uses its [native Cava module](https://github.com/Alexays/Waybar/wiki/Module:-Cava),
-  detects the active network interface, and controls audio through `wpctl`.
+- Waybar currently has no Cava or MPRIS module in its active module lists.
+  It detects the active network interface and uses PipeWire-compatible audio.
 - Hyprlock captures and blurs the desktop directly; Super+L no longer requires an
   untracked lock-screen script. Wlogout uses the same locker.
 - Zsh loads the shared `aliasrc`, uses `eza`, creates its history directory, and
@@ -165,9 +166,9 @@ with your selected image to regenerate the palettes. Wallpaper state is kept
 outside the cache, and restoration does not regenerate colors on every login.
 
 Hyprlock uses a blurred screenshot of the current desktop. Changing a desktop
-wallpaper does not modify your SDDM or rEFInd themes. The optional
-`sddm_rEFInd_bg.sh IMAGE BLURRED_IMAGE` helper still targets this machine's
-Sugar Candy and rEFInd theme paths; edit those paths before using it elsewhere.
+wallpaper does not modify SDDM. The old `sddm_rEFInd_bg.sh` helper is retained
+only as historical configuration; its Sugar Candy and rEFInd paths do not
+represent the current login screen.
 
 ### Check the setup
 
@@ -197,7 +198,8 @@ dotfiles/
 ├── install.sh
 ├── config/          # mirrors ~/.config
 │   ├── hypr/        # Hyprland Lua config + Hyprlock + scripts
-│   ├── kitty/       # terminal
+│   ├── ghostty/     # default terminal: TokyoNight, 85% opacity
+│   ├── kitty/       # optional terminal
 │   ├── waybar/      # status bar
 │   ├── rofi/        # app launcher
 │   ├── wofi/        # wallpaper picker launcher
@@ -223,7 +225,7 @@ dotfiles/
 
 | Keybind | Action |
 |---|---|
-| Super + Q | Open terminal (Kitty) |
+| Super + Q | Open terminal (Ghostty) |
 | Super + E | Open file manager (Thunar) |
 | Super + D | App launcher (Rofi drun) |
 | Super + R | Command runner (Rofi run) |
@@ -297,6 +299,68 @@ dotfiles/
 
 - `config/gh/hosts.yml` is excluded (contains local account info). Re-authenticate with `gh auth login` after a fresh install.
 - Zsh uses `ZDOTDIR=~/.config/zsh` — the real config lives in `config/zsh/`, not `~/`.
+- The live default browser is Brave (`brave-bin` on this machine); the browser
+  picker, YouTube Music shortcut, Bluetooth manager, and network TUI need their
+  respective optional apps. `walker` is named in `keywords.lua` but is not
+  installed or called by the active Super+D binding.
+- The Lua config specifies eDP-1 and HDMI-A-1 and US/Latin American keyboard
+  layouts. Adapt these to the new machine before logging in. Its optional
+  `~/Scripts/battery-checknow` hook runs only if present.
+- The desktop starts Waybar, Swaync, Hypridle, Fcitx5, the polkit agent, and
+  the wallpaper restore from the Hyprland startup callback. PipeWire,
+  WirePlumber, network and portal services rely on the installed system/user
+  service setup. The service bus was unavailable to this audit, so enabled
+  state was not verified.
+- The current GTK 3 and GTK 4 settings request dark Adwaita and Adwaita icons;
+  the startup script also persists the GNOME color-scheme preference.
+  Three old GTK 4 links to the absent `adw-gtk3-dark` theme were removed.
+  The optional Qt5/Qt6 configs still refer to `Papirus-Dark-Maia`, which was
+  not installed in this audit and is not selected by the current
+  `QT_QPA_PLATFORMTHEME=gtk3` setting.
+
+### SDDM Silent
+
+The current SDDM selects Silent through `/etc/sddm.conf.d/theme.conf`.
+Silent's `metadata.desktop` selects `configs/default.conf`, which names
+`art.jpg` for both lock and login backgrounds. The current image lives under
+`/usr/share/sddm/themes/silent/backgrounds/`; the avatar lives at
+`/usr/share/sddm/faces/jaden.face.icon`. Neither image is committed.
+`system/sddm/theme.conf` and `system/sddm/silent.conf` capture the verified
+text settings. The theme config is package-owned and may be overwritten by
+updates.
+
+After installing `sddm`, the AUR package `sddm-silent-theme`, and
+`qt6-virtualkeyboard`, review the optional privileged step:
+
+```bash
+SDDM_WALLPAPER=/path/to/image.jpg SDDM_AVATAR=/path/to/avatar.png bash install.sh --dry-run --sddm
+SDDM_WALLPAPER=/path/to/image.jpg SDDM_AVATAR=/path/to/avatar.png bash install.sh --sddm
+```
+
+It asks for confirmation, backs up differing destinations beside the original,
+and installs only supplied images. Omit either variable to leave that asset
+alone. On a fresh install, supply `SDDM_WALLPAPER` or change both
+`background` entries in `system/sddm/silent.conf` to a theme image that
+exists there. Check that `metadata.desktop` still selects `configs/default.conf`
+after a theme update. The old `sddm_rEFInd_bg.sh` helper targets Sugar Candy
+and rEFInd paths and does not apply to this setup. No SDDM restart is performed.
+
+### Fresh install checklist
+
+1. Install the desktop, portal, audio, font, launcher, lock, bar, notification,
+   screenshot, wallpaper, shell, and optional app packages listed above. On
+   this machine, `blueman`, `networkmanager`, and `power-profiles-daemon`
+   supply active Waybar actions; `brave-bin` supplies the MIME browser.
+2. Clone the repository, review monitor names and personal paths, run
+   `bash install.sh --dry-run`, then `bash install.sh`.
+3. Supply your own desktop image under `~/Pictures/Wallpapers` and run
+   `wallpaper.sh IMAGE` from a Hyprland session. Set an avatar and SDDM image
+   separately using the optional step above.
+4. Verify `hyprctl configerrors`, `gsettings get org.gnome.desktop.interface
+   color-scheme`, `xdg-mime query default text/html`, `awww query`,
+   `systemctl --user status pipewire wireplumber swaync hypridle`, and the
+   installed portals after login. Check SDDM at the next login without
+   restarting it during an active session.
 
 ## Validation
 

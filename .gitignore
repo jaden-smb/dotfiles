@@ -18,3 +18,27 @@ config/hypr/Fonts/
 *~
 *.swp
 __pycache__/
+
+# Local experiments and generated state; never install or publish these.
+config/hypr/hyprland.conf
+config/waybar/*.before-*
+config/waybar/scripts/*.before-*
+config/**/cache/
+config/**/state/
+config/**/history
+config/**/History
+config/**/Cookies
+config/**/Local Storage/
+config/**/Session Storage/
+config/**/IndexedDB/
+config/**/storage/
+config/**/accounts/
+config/**/credentials*
+config/**/tokens*
+config/**/id_*
+config/**/known_hosts
+system/sddm/*.jpg
+system/sddm/*.jpeg
+system/sddm/*.png
+system/sddm/*.webp
+system/sddm/*.mp4

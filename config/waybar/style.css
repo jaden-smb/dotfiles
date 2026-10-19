@@ -60,9 +60,11 @@ window#waybar {
 
 #clock,
 #pulseaudio,
+#language,
 #tray,
 #bluetooth,
 #battery,
+#power-profiles-daemon,
 #custom-logo,
 #custom-power,
 #custom-spotify,
@@ -137,10 +139,14 @@ window#waybar {
 #pulseaudio { color: @audio-fg; }
 #pulseaudio.muted { color: @audio-muted-fg; }
 #tray { color: @tray-fg; }
+#language { color: @clock-simple-fg; }
 #network { color: @wifi-fg; }
 #bluetooth { color: @bluetooth-fg; }
 #battery { color: @battery-fg; }
 #battery.charging { background-color: #40a02b; color: #ffffff; }
+#power-profiles-daemon { color: @clock-simple-fg; }
+#power-profiles-daemon.performance { color: @power-fg; }
+#power-profiles-daemon.power-saver { color: @cava-fg; }
 #custom-launcher { color: #1690cf; }
 #custom-logo { color: @logo-fg; }
 #cava { color: @cava-fg; }

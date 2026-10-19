@@ -1,0 +1,7 @@
+# Built-in Tokyo Night palette; independent of wallpaper-generated colors.
+theme = TokyoNight
+
+# Keep text opaque while Hyprland blurs the transparent background.
+background-opacity = 0.85
+# Request background blur; its strength is controlled by Hyprland's decoration.blur.
+background-blur = true

@@ -4,7 +4,7 @@ local colors = require("colors")
 
 -- Display layout and workspace assignments.
 hl.monitor({ output = "eDP-1", mode = "1920x1080@60.06", position = "0x0", scale = 1.33 })
-hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@60.00", position = "1444x0", scale = "auto" })
+hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@60.00", position = "1440x0", scale = "auto" })
 for workspace = 1, 9 do
     hl.workspace_rule({
         workspace = tostring(workspace),
@@ -13,17 +13,16 @@ for workspace = 1, 9 do
     })
 end
 
--- Wayland toolkit environment. NVIDIA variables follow the current wiki.
+-- Wayland toolkit environment. Let graphics libraries detect the Intel GPU.
 hl.env("CLUTTER_BACKEND", "wayland")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+hl.env("TERMINAL", "ghostty")
 hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("SDL_VIDEODRIVER", "wayland")
-hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
-hl.env("LIBVA_DRIVER_NAME", "nvidia")
-hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
@@ -86,8 +85,8 @@ hl.config({
 })
 
 hl.config({
-    ["input.kb_layout"] = "us",
-    ["input.kb_variant"] = "intl",
+    ["input.kb_layout"] = "us,latam",
+    ["input.kb_variant"] = "intl,",
     ["input.kb_model"] = "",
     ["input.kb_options"] = "lv3:switch",
     ["input.kb_rules"] = "",
@@ -108,11 +107,20 @@ require("keybinds.keybinds")
 
 -- Run once at compositor startup, rather than again on every config reload.
 hl.on("hyprland.start", function()
+    hl.exec_cmd([[sh "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/scripts/apply-dark-mode.sh"]])
     hl.exec_cmd("pgrep -x waybar >/dev/null || waybar")
-    hl.exec_cmd("pgrep -x swaync >/dev/null || swaync")
+    -- Share the session environment before starting the user services.
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE && systemctl --user start swaync.service hypridle.service")
     hl.exec_cmd([[bash "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/scripts/wallpaper.sh" --restore]])
     hl.exec_cmd("fcitx5")
-    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
-    hl.exec_cmd("QT_QPA_PLATFORMTHEME=qt6ct /usr/lib/hyprpolkitagent/hyprpolkitagent")
+    hl.exec_cmd("QT_QPA_PLATFORMTHEME=gtk3 /usr/lib/hyprpolkitagent/hyprpolkitagent")
     hl.exec_cmd([[if [ -x "$HOME/Scripts/battery-checknow" ]; then "$HOME/Scripts/battery-checknow"; fi]])
 end)
+
+hl.window_rule({
+    name = "vesktop-glass",
+    match = {
+        class = "^(vesktop)$",
+    },
+    opacity = "0.88 override 0.88 override",
+})

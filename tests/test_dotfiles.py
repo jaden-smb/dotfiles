@@ -141,6 +141,23 @@ if name == 'wofi':
         self.assertEqual(palette.read_text(), 'existing palette')
         self.assertEqual(list((repo / '.backup').iterdir()), backups)
 
+    def test_installer_dry_run_preserves_existing_files(self):
+        repo = self.base / 'repo'
+        repo.mkdir()
+        shutil.copy2(ROOT / 'install.sh', repo / 'install.sh')
+        (repo / 'config').symlink_to(ROOT / 'config')
+        (repo / 'home').symlink_to(ROOT / 'home')
+        target = Path(self.env['XDG_CONFIG_HOME'])
+        target.mkdir()
+        existing = target / 'hypr'
+        existing.mkdir()
+        (existing / 'custom.conf').write_text('keep me')
+        result = self.run_script(repo / 'install.sh', '--dry-run')
+        self.assertIn('DRY RUN:', result.stdout)
+        self.assertEqual((existing / 'custom.conf').read_text(), 'keep me')
+        self.assertFalse((repo / '.backup').exists())
+        self.assertFalse((Path(self.env['XDG_CACHE_HOME']) / 'wal').exists())
+
     def test_config_formats_and_shell_syntax(self):
         import tomllib
         for p in list((ROOT / 'config').rglob('*.json')) + list((ROOT / 'config').rglob('*.jsonc')):

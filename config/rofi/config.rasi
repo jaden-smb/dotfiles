@@ -1,5 +1,9 @@
 @import "~/.cache/wal/colors-rofi-dark.rasi"
 
+configuration {
+    terminal: "ghostty";
+}
+
 * {
     font:   "Roboto 13";
     background-color:   transparent;

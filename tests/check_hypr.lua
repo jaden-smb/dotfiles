@@ -38,7 +38,7 @@ assert(loadfile('config/hypr/hyprland.lua'))()
 local count = 0
 for _,_ in pairs(binds) do count = count + 1 end
 assert(count == 57, 'Unexpected bind count: '..count)
-assert(#monitors == 2 and monitors[1].scale == 1.33 and monitors[2].position == '1444x0')
+assert(#monitors == 2 and monitors[1].scale == 1.33 and monitors[2].position == '1440x0')
 for i=1,9 do assert(workspaces[tostring(i)].monitor == (i<=3 and 'eDP-1' or 'HDMI-A-1')) end
 assert(workspaces['1'].default and workspaces['4'].default)
 for i=1,10 do
@@ -51,13 +51,13 @@ assert(binds['SUPER + mouse:272'].flags.mouse)
 assert(binds['XF86AudioRaiseVolume'].flags.locked and binds['XF86AudioRaiseVolume'].flags.repeating)
 assert(binds['XF86AudioPlay'].flags.locked and not binds['XF86AudioPlay'].flags.repeating)
 assert(config['cursor.no_hardware_cursors'] == 2)
-assert(config['input.kb_variant'] == 'intl')
+assert(config['input.kb_variant'] == 'intl,')
 assert(config['dwindle.pseudotile'] == nil)
-assert(#animations == 17 and #rules == 12 and #layers == 4)
+assert(#animations == 17 and #rules == 13 and #layers == 4)
 assert(#executed == 0, 'Autostart executed on config load/reload')
 events['hyprland.start']()
 assert(#executed == 7)
-assert(executed[1] == 'pgrep -x waybar >/dev/null || waybar')
+assert(executed[2] == 'pgrep -x waybar >/dev/null || waybar')
 local expected_active = os.getenv('TEST_ACTIVE') or 'rgba(33ccffee)'
 assert(config['general.col.active_border'] == expected_active)
 assert(config['general.col.inactive_border'] == (os.getenv('TEST_INACTIVE') or 'rgba(595959aa)'))
