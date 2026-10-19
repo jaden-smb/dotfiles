@@ -63,6 +63,7 @@ Use current packages from your distribution for these components:
 | Bar and notifications | Waybar, Swaync, PipeWire, WirePlumber (`wpctl`) |
 | Wallpaper and picker | `awww`, `awww-daemon`, ImageMagick 7 (`magick`), Wofi, pywal16 (`wal`), util-linux (`flock`) |
 | Launchers and apps | Rofi with Wayland support, Ghostty, Thunar, Wlogout, Fcitx5, Kitty/Alacritty (optional) |
+| Current file defaults | Chromium, imv, Okular, VLC, LibreOffice Writer and Calc |
 | Screenshots and controls | `grim`, `slurp`, `wl-copy`, `brightnessctl`, `playerctl`, `jq` |
 | Shell | Zsh, Oh My Zsh, Powerlevel10k, `eza`, `zoxide`, Fastfetch |
 
@@ -92,7 +93,9 @@ The Hyprlock font and optional profile image can be changed in `hyprlock.conf`.
 - Portal services use D-Bus activation after the Wayland environment is imported.
   `config/hypr/scripts/xdph.sh` is a manual systemd portal recovery command.
 - Waybar currently has no Cava or MPRIS module in its active module lists.
-  It detects the active network interface and uses PipeWire-compatible audio.
+  It shows SwayNC notification status, detects the active network interface,
+  and uses PipeWire-compatible audio. SwayNC uses a 480 px control center and
+  notification window with its current dark theme.
 - Hyprlock captures and blurs the desktop directly; Super+L no longer requires an
   untracked lock-screen script. Wlogout uses the same locker.
 - Zsh loads the shared `aliasrc`, uses `eza`, creates its history directory, and
@@ -198,7 +201,7 @@ dotfiles/
 ├── install.sh
 ├── config/          # mirrors ~/.config
 │   ├── hypr/        # Hyprland Lua config + Hyprlock + scripts
-│   ├── ghostty/     # default terminal: TokyoNight, 85% opacity
+│   ├── ghostty/     # default terminal: TokyoNight, 95% opacity
 │   ├── kitty/       # optional terminal
 │   ├── waybar/      # status bar
 │   ├── rofi/        # app launcher
@@ -299,10 +302,14 @@ dotfiles/
 
 - `config/gh/hosts.yml` is excluded (contains local account info). Re-authenticate with `gh auth login` after a fresh install.
 - Zsh uses `ZDOTDIR=~/.config/zsh` — the real config lives in `config/zsh/`, not `~/`.
-- The live default browser is Brave (`brave-bin` on this machine); the browser
-  picker, YouTube Music shortcut, Bluetooth manager, and network TUI need their
-  respective optional apps. `walker` is named in `keywords.lua` but is not
-  installed or called by the active Super+D binding.
+- The live default browser is Chromium. The current MIME defaults open images
+  with imv, PDFs with Okular, and videos with VLC. The browser picker still
+  offers Brave and other installed browsers; the YouTube Music shortcut,
+  Bluetooth manager, and network TUI need their respective optional apps.
+  `walker` is named in `keywords.lua` but is not installed or called by the
+  active Super+D binding.
+- Ghostty reads `config.ghostty` from its linked config directory. Its TokyoNight
+  background is 95% opaque, and text cell backgrounds remain opaque.
 - The Lua config specifies eDP-1 and HDMI-A-1 and US/Latin American keyboard
   layouts. Adapt these to the new machine before logging in. Its optional
   `~/Scripts/battery-checknow` hook runs only if present.
@@ -345,12 +352,21 @@ exists there. Check that `metadata.desktop` still selects `configs/default.conf`
 after a theme update. The old `sddm_rEFInd_bg.sh` helper targets Sugar Candy
 and rEFInd paths and does not apply to this setup. No SDDM restart is performed.
 
+### Hibernation
+
+This machine uses an 8 GiB `/swap-hibernate` file on ext4, alongside zram.
+GRUB has a resume device and offset, and `/etc/fstab` mounts the swap file.
+`system/hibernation/setup-hibernation.sh` captures the guarded setup procedure;
+it calculates the resume values for the machine where it runs. The installer
+does not run it. Review the script and use it only on an ext4 root with GRUB
+and the systemd initramfs hook.
+
 ### Fresh install checklist
 
 1. Install the desktop, portal, audio, font, launcher, lock, bar, notification,
    screenshot, wallpaper, shell, and optional app packages listed above. On
    this machine, `blueman`, `networkmanager`, and `power-profiles-daemon`
-   supply active Waybar actions; `brave-bin` supplies the MIME browser.
+   supply active Waybar actions; Chromium supplies the MIME browser.
 2. Clone the repository, review monitor names and personal paths, run
    `bash install.sh --dry-run`, then `bash install.sh`.
 3. Supply your own desktop image under `~/Pictures/Wallpapers` and run

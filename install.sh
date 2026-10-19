@@ -62,7 +62,7 @@ if "$INSTALL_SDDM"; then
         [[ -z "$asset" || ( -f "$asset" && -r "$asset" ) ]] || { say "Unreadable asset: $asset" >&2; exit 1; }
     done
     say '==> Optional root-owned SDDM files'
-    say "config: /etc/sddm.conf.d/90-dotfiles-theme.conf"
+    say "config: /etc/sddm.conf.d/theme.conf"
     say "theme config: $theme_dir/configs/default.conf"
     [[ -z "$wallpaper" ]] || say "wallpaper: $wallpaper -> $theme_dir/backgrounds/art.jpg"
     [[ -z "$avatar" ]] || say "avatar: $avatar -> /usr/share/sddm/faces/$(id -un).face.icon"
@@ -77,7 +77,7 @@ if "$INSTALL_SDDM"; then
         if exists "$dst"; then run sudo cp -a -- "$dst" "$dst.before-dotfiles-$stamp"; fi
         run sudo install -m 644 -- "$src" "$dst"
     }
-    system_install "$DOTFILES/system/sddm/theme.conf" /etc/sddm.conf.d/90-dotfiles-theme.conf
+    system_install "$DOTFILES/system/sddm/theme.conf" /etc/sddm.conf.d/theme.conf
     system_install "$DOTFILES/system/sddm/silent.conf" "$theme_dir/configs/default.conf"
     [[ -z "$wallpaper" ]] || system_install "$wallpaper" "$theme_dir/backgrounds/art.jpg"
     [[ -z "$avatar" ]] || system_install "$avatar" "/usr/share/sddm/faces/$(id -un).face.icon"

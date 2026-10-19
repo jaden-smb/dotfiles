@@ -1,111 +1,79 @@
-@define-color text            @foreground;
-@define-color background-alt  @color1;
-@define-color selected        @color3;
-@define-color hover           @color5;
-@define-color urgent          @color2;
-
-* {
-
-  /*background-alt:        @color1;      Buttons background */
-  /*selected:              @color2;      Button selected */
-  /*hover:                 @color5;      Hover button */
-  /*urgent:                @color6;      Urgency critical */
-  /*text-selected:         @background; */
-
-  color: @text;
-
-  all: unset;
-  font-size: 14px;
-  font-family: "JetBrains Mono Nerd Font 10";
-  transition: 200ms;
-
+/* Shared popup and history cards. The packaged stylesheet supplies widget layout. */
+.notification-row .notification-background {
+  padding: 4px 6px;
 }
 
-.notification-row {
-  outline: none;
-  margin: 0;
-  padding: 0px;
+.notification-row .notification-background .notification {
+  background: rgba(30, 30, 46, 0.96);
+  border: 1px solid @outline;
+  border-radius: 14px;
+  color: @foreground;
 }
 
-.floating-notifications.background .notification-row .notification-background {
-  background: @background;
-  box-shadow: 0 0 8px 0 rgba(0,0,0,.6);
-  border: 1px solid @selected;
-  border-radius: 24px;
-  margin: 16px;
-  padding: 0;
+.notification-row .notification-background .notification.critical {
+  border-color: @critical;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification {
+.notification-row .notification-background .notification .notification-default-action {
+  color: @foreground;
   padding: 6px;
-  border-radius: 12px;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification.critical {
-  border: 2px solid @urgent;
+.notification-row .notification-background .notification .notification-default-action:hover {
+  background: @surface_high;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification .notification-content {
-  margin: 14px;
+.notification-row .notification-background .notification .notification-default-action .notification-content {
+  color: @foreground;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * {
-  min-height: 3.4em;
+.notification-row .notification-background .notification .notification-default-action .notification-content .image {
+  -gtk-icon-size: 42px;
+  margin: 2px 6px 2px 2px;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action {
-  border-radius: 8px;
-  background-color: @background-alt ;
-  margin: 6px;
-  border: 1px solid transparent;
+/* SwayNC adds this badge only when a primary image is present. Its overlay
+ * duplicates app icons supplied as the primary image; keep the primary image. */
+.notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
+  opacity: 0;
+  margin: 0;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
-  background-color: @hover;
-  border: 1px solid @selected;
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box label {
+  color: @foreground;
+  font-family: "JetBrains Mono Nerd Font";
+  filter: none;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
-  background-color: @selected;
-  color: @background;
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .summary {
+  color: @foreground;
+  font-size: 15px;
+  font-weight: bold;
 }
 
-.image {
-  margin: 10px 20px 10px 0px;
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .body {
+  color: @foreground;
+  font-size: 14px;
+  font-weight: normal;
 }
 
-.summary {
-  font-weight: 800;
-  font-size: 1rem;
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
+  color: @secondary;
+  font-size: 12px;
+  font-weight: normal;
+  margin-right: 8px;
 }
 
-.body {
-  font-size: 0.8rem;
+.notification-row .notification-background .notification .notification-action > button,
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-entry,
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button {
+  color: @foreground;
 }
 
-.floating-notifications.background .notification-row .notification-background .close-button {
-  margin: 6px;
-  padding: 2px;
-  border-radius: 6px;
-  background-color: transparent;
-  border: 1px solid transparent;
+.notification-row .notification-background .notification .close-button {
+  color: @foreground;
 }
 
-.floating-notifications.background .notification-row .notification-background .close-button:hover {
-  background-color: @selected;
+.notification-row .notification-background .notification .close-button:hover {
+  background: @surface_high;
 }
-
-.floating-notifications.background .notification-row .notification-background .close-button:active {
-  background-color: @selected;
-  color: @background;
-}
-
-.notification.critical progress {
-  background-color: @selected;
-}
-
-.notification.low progress,
-.notification.normal progress {
-  background-color: @selected;
-}
-

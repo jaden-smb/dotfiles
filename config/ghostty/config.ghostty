@@ -2,6 +2,7 @@
 theme = TokyoNight
 
 # Keep text opaque while Hyprland blurs the transparent background.
-background-opacity = 0.85
+background-opacity = 0.95
+background-opacity-cells = true
 # Request background blur; its strength is controlled by Hyprland's decoration.blur.
 background-blur = true

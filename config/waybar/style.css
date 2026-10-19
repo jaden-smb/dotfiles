@@ -150,6 +150,7 @@ window#waybar {
 #custom-launcher { color: #1690cf; }
 #custom-logo { color: @logo-fg; }
 #cava { color: @cava-fg; }
+#custom-notification { color: @base-fg; }
 #custom-power { color: @power-fg; }
 
 /* ===========================
