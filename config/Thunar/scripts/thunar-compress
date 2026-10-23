@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+"""Create an archive from files selected in Thunar."""
+
+import argparse
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+
+
+FORMATS = ("zip", "7z", "tar.gz", "tar.xz")
+
+
+def dialog(*args):
+    return subprocess.run(["zenity", *args], text=True, capture_output=True)
+
+
+def fail(message, gui):
+    if gui:
+        dialog("--error", "--title=Create Archive", f"--text={message}")
+    else:
+        print(message, file=sys.stderr)
+    return 1
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--format", choices=FORMATS)
+    parser.add_argument("--name")
+    parser.add_argument("paths", nargs="+")
+    args = parser.parse_args()
+    gui = args.format is None or args.name is None
+
+    sources = [Path(path).absolute() for path in args.paths]
+    if any(not source.exists() and not source.is_symlink() for source in sources):
+        return fail("A selected file no longer exists.", gui)
+    parent = sources[0].parent
+    if any(source.parent != parent for source in sources):
+        return fail("Select files from one folder.", gui)
+
+    archive_format = args.format
+    if archive_format is None:
+        result = dialog(
+            "--list", "--title=Create Archive", "--text=Choose an archive format",
+            "--column=Format", *FORMATS,
+        )
+        if result.returncode:
+            return 0
+        archive_format = result.stdout.strip()
+        if archive_format not in FORMATS:
+            return fail("Invalid archive format.", gui)
+
+    name = args.name
+    if name is None:
+        result = dialog(
+            "--entry", "--title=Create Archive", "--text=Archive name",
+            "--entry-text=Archive",
+        )
+        if result.returncode:
+            return 0
+        name = result.stdout.strip()
+
+    if not name or name in (".", "..") or "/" in name or "\x00" in name:
+        return fail("Enter a valid archive name without slashes.", gui)
+    suffix = "." + archive_format
+    if not name.lower().endswith(suffix):
+        name += suffix
+    output = parent / name
+    if output.exists() or output.is_symlink():
+        return fail(f"{name} already exists. Choose another name.", gui)
+
+    descriptor, temporary = tempfile.mkstemp(
+        prefix=".thunar-archive-", suffix=suffix, dir=parent,
+    )
+    os.close(descriptor)
+    try:
+        command = [
+            "bsdtar", "-a", "-cf", temporary, "-C", str(parent),
+            "--", *(source.name for source in sources),
+        ]
+        result = subprocess.run(command, text=True, capture_output=True)
+        if result.returncode:
+            return fail(result.stderr.strip() or "Archive creation failed.", gui)
+        os.link(temporary, output)
+    except OSError as error:
+        return fail(str(error), gui)
+    finally:
+        Path(temporary).unlink(missing_ok=True)
+
+    if gui:
+        dialog("--info", "--title=Create Archive", f"--text=Created {name}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

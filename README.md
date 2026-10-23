@@ -66,6 +66,7 @@ Use current packages from your distribution for these components:
 | Current file defaults | Chromium, imv, Okular, VLC, LibreOffice Writer and Calc |
 | Screenshots and controls | `grim`, `slurp`, `wl-copy`, `brightnessctl`, `playerctl`, `jq` |
 | Shell | Zsh, Oh My Zsh, Powerlevel10k, `eza`, `zoxide`, Fastfetch |
+| Thunar archive action | `libarchive` (`bsdtar`), `zenity`, Python 3 |
 
 Install **awww** using your distribution's package if available, or follow its
 [upstream build instructions](https://codeberg.org/LGFae/awww#build). Both the
@@ -85,6 +86,17 @@ The wallpaper script includes `~/.local/bin` in its search path.
 Fonts and icons remain personal choices: install MesloLGS NF for the terminals,
 Lexend/JetBrains Mono Nerd Font for Waybar, and the configured GTK/Qt icon themes.
 The Hyprlock font and optional profile image can be changed in `hyprlock.conf`.
+For multilingual fallback, install the official Arch packages `noto-fonts`,
+`noto-fonts-cjk`, and `noto-fonts-emoji`. Waybar's icon glyphs use
+`ttf-jetbrains-mono-nerd`. Install these on a fresh Arch setup with:
+
+```bash
+sudo pacman -S --needed noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-jetbrains-mono-nerd
+```
+
+The installer only links configuration; it does not install packages. Check
+coverage with `python tests/check_font_coverage.py` and inspect the sample in
+`tests/typography.txt` in a browser, terminal, and desktop applications.
 
 ### Updated integrations
 
@@ -93,7 +105,7 @@ The Hyprlock font and optional profile image can be changed in `hyprlock.conf`.
 - Portal services use D-Bus activation after the Wayland environment is imported.
   `config/hypr/scripts/xdph.sh` is a manual systemd portal recovery command.
 - Waybar currently has no Cava or MPRIS module in its active module lists.
-  It shows SwayNC notification status, detects the active network interface,
+  It has separate bars for eDP-1 and HDMI-A-1, shows SwayNC notification status, detects the active network interface,
   and uses PipeWire-compatible audio. SwayNC uses a 480 px control center and
   notification window with its current dark theme.
 - Hyprlock captures and blurs the desktop directly; Super+L no longer requires an
@@ -104,6 +116,9 @@ The Hyprlock font and optional profile image can be changed in `hyprlock.conf`.
   fallback Rofi palette without overwriting an existing generated palette.
   GTK, Qt, Hyprpanel, and the existing desktop themes remain available; Hyprpanel
   is an alternative to the Waybar/Swaync combination started by this config.
+- Chromium uses a native Wayland flag. Zed uses the VS Code keymap, Gruvbox
+  light/dark themes, and disabled telemetry. Thunar has a custom archive action
+  backed by `config/Thunar/scripts/thunar-compress`.
 
 ## Wallpapers
 
@@ -201,7 +216,7 @@ dotfiles/
 ├── install.sh
 ├── config/          # mirrors ~/.config
 │   ├── hypr/        # Hyprland Lua config + Hyprlock + scripts
-│   ├── ghostty/     # default terminal: TokyoNight, 95% opacity
+│   ├── ghostty/     # default terminal: cool blue palette, 95% opacity
 │   ├── kitty/       # optional terminal
 │   ├── waybar/      # status bar
 │   ├── rofi/        # app launcher
@@ -210,6 +225,8 @@ dotfiles/
 │   ├── swaync/      # notification center
 │   ├── wal/         # tracked palette templates
 │   ├── fastfetch/   # system information
+│   ├── Thunar/      # archive action and helper
+│   ├── zed/         # editor preferences
 │   ├── zsh/         # Zsh config (ZDOTDIR)
 │   ├── alacritty/   # secondary terminal
 │   ├── gtk-3.0/
@@ -308,8 +325,9 @@ dotfiles/
   Bluetooth manager, and network TUI need their respective optional apps.
   `walker` is named in `keywords.lua` but is not installed or called by the
   active Super+D binding.
-- Ghostty reads `config.ghostty` from its linked config directory. Its TokyoNight
-  background is 95% opaque, and text cell backgrounds remain opaque.
+- Ghostty reads `config.ghostty` from its linked config directory. Its cool blue
+  palette keeps the TokyoNight text color, with a 95% opaque background and
+  opaque text cell backgrounds.
 - The Lua config specifies eDP-1 and HDMI-A-1 and US/Latin American keyboard
   layouts. Adapt these to the new machine before logging in. Its optional
   `~/Scripts/battery-checknow` hook runs only if present.
@@ -324,6 +342,17 @@ dotfiles/
   The optional Qt5/Qt6 configs still refer to `Papirus-Dark-Maia`, which was
   not installed in this audit and is not selected by the current
   `QT_QPA_PLATFORMTHEME=gtk3` setting.
+- Neovim is maintained separately at `~/.config/nvim` in the `nvim-config`
+  repository. `install.sh` does not link or replace it.
+
+### Power and lid settings
+
+The current system uses `system/zram/zram-generator.conf` to create a zstd zram
+swap device sized to half of RAM. `/etc/systemd/logind.conf.d/10-ac-awake.conf`
+keeps the lid close action from suspending the laptop while on external power.
+These root-owned files are captured in the repo but are not installed by
+`install.sh`. Review them before copying to `/etc/systemd/` on a new machine.
+The hibernation setup below is a separate, machine-dependent procedure.
 
 ### SDDM Silent
 

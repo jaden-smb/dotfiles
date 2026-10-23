@@ -1,0 +1,13 @@
+English: Hello World
+Español: á é í ó ú ñ ¿ ¡ ü
+Greek: Ελληνικά
+Cyrillic: Привет
+Japanese: 日本語
+Chinese: 中文测试
+Korean: 안녕하세요
+Arabic: مرحبا
+Hindi: नमस्ते
+Symbols: ✓ ✗ ★ → ← ∞ ∑
+Emoji: 🚀 🎮 🧠 🌍 ✨
+Math: ∀ ∃ ∈ ∂ ∇ √ ≠ ≤ ≥
+Nerd Font icons:  

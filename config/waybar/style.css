@@ -14,12 +14,10 @@
 @define-color ws-fg-active #89b4fa;
 @define-color ws-fg-urgent #f38ba8;
 
-@define-color mpris-border @base-bg-solid;
-
 @define-color cpu-fg #94e2d5;
 @define-color mem-fg #cba6f7;
 @define-color clock-fg #74c7ec;
-@define-color clock-simple-fg #89b4fa;
+@define-color status-accent-fg #89b4fa;
 @define-color window-fg @base-fg;
 @define-color audio-fg #b4befe;
 @define-color audio-muted-fg #a6adc8;
@@ -27,13 +25,11 @@
 @define-color wifi-fg #89dceb;
 @define-color bluetooth-fg #8aadf4;
 @define-color battery-fg #f5a97f;
-@define-color logo-fg #89b4fa;
-@define-color cava-fg #57ec7c;
+@define-color power-saver-fg #57ec7c;
 @define-color power-fg #f38ba8;
 
 @define-color tooltip-bg #181825;
 @define-color tooltip-border #89b4fa;
-@define-color sep-fg #585b70;
 
 /* ===========================
  * Global
@@ -65,10 +61,7 @@ window#waybar {
 #bluetooth,
 #battery,
 #power-profiles-daemon,
-#custom-logo,
 #custom-power,
-#custom-spotify,
-#cava,
 #custom-notification,
 #custom-launcher,
 #cpu,
@@ -108,23 +101,30 @@ window#waybar {
  color: @ws-fg-urgent;
 }
 
-/* ===========================
- * MPRIS
- * =========================== */
-
-#mpris {
- padding: 0.3rem 0.6rem;
- margin: 0.4rem 0.25rem;
- border-radius: 6px;
- background-color: @base-bg;
+/* Keep the scaled laptop panel compact; HDMI uses the base sizing. */
+window#waybar.laptop,
+window#waybar.laptop * {
+ font-size: 15px;
 }
 
-#mpris.playing {
- color: #a6e3a1;
+window#waybar.laptop #clock,
+window#waybar.laptop #pulseaudio,
+window#waybar.laptop #language,
+window#waybar.laptop #tray,
+window#waybar.laptop #bluetooth,
+window#waybar.laptop #battery,
+window#waybar.laptop #custom-power,
+window#waybar.laptop #custom-notification,
+window#waybar.laptop #custom-launcher,
+window#waybar.laptop #network,
+window#waybar.laptop #window {
+ padding: 4px 7px;
+ margin: 5px 2px;
 }
 
-#mpris.paused {
- color: #9399b2;
+window#waybar.laptop #workspaces button {
+ padding: 4px 7px;
+ margin: 5px 2px;
 }
 
 /* ===========================
@@ -134,33 +134,27 @@ window#waybar {
 #cpu { color: @cpu-fg; }
 #memory { color: @mem-fg; }
 #clock { color: @clock-fg; }
-#clock.simpleclock { color: @clock-simple-fg; }
 #window { color: @window-fg; }
 #pulseaudio { color: @audio-fg; }
 #pulseaudio.muted { color: @audio-muted-fg; }
 #tray { color: @tray-fg; }
-#language { color: @clock-simple-fg; }
+#language { color: @status-accent-fg; }
 #network { color: @wifi-fg; }
 #bluetooth { color: @bluetooth-fg; }
 #battery { color: @battery-fg; }
 #battery.charging { background-color: #40a02b; color: #ffffff; }
-#power-profiles-daemon { color: @clock-simple-fg; }
+#battery.warning:not(.charging) { color: #f9e2af; }
+#battery.critical:not(.charging) { background-color: #f38ba8; color: @base-bg-solid; }
+#power-profiles-daemon { color: @status-accent-fg; }
 #power-profiles-daemon.performance { color: @power-fg; }
-#power-profiles-daemon.power-saver { color: @cava-fg; }
+#power-profiles-daemon.power-saver { color: @power-saver-fg; }
 #custom-launcher { color: #1690cf; }
-#custom-logo { color: @logo-fg; }
-#cava { color: @cava-fg; }
 #custom-notification { color: @base-fg; }
 #custom-power { color: @power-fg; }
 
 /* ===========================
  * Divers
  * =========================== */
-
-#custom-sep {
- padding: 0;
- color: @sep-fg;
-}
 
 window#waybar.empty #window {
  background-color: transparent;

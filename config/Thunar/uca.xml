@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1792353530131429-1</unique-id>
+	<command>ghostty --working-directory=%f</command>
+	<description>Example for a custom action</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>package-x-generic</icon>
+	<name>Create Archive...</name>
+	<unique-id>1792520000000000-2</unique-id>
+	<command>sh -c 'exec python3 "${XDG_CONFIG_HOME:-$HOME/.config}/Thunar/scripts/thunar-compress" "$@"' sh %F</command>
+	<description>Compress selected files into ZIP, 7z, tar.gz, or tar.xz</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<text-files/>
+	<video-files/>
+	<other-files/>
+</action>
+</actions>

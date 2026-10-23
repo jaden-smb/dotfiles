@@ -1,5 +1,28 @@
-# Built-in Tokyo Night palette; independent of wallpaper-generated colors.
+# Cool blue palette based on Tokyo Night; independent of wallpaper colors.
 theme = TokyoNight
+background = #111b2d
+foreground = #c0caf5
+cursor-color = #8db8ff
+selection-background = #31517f
+selection-foreground = #e4edff
+
+# ANSI colors: navy, slate blue, cyan, and periwinkle.
+palette = 0=#101827
+palette = 1=#819ecb
+palette = 2=#83b9c6
+palette = 3=#a3b7d7
+palette = 4=#7aa2f7
+palette = 5=#a7a5d8
+palette = 6=#7dcfff
+palette = 7=#c0caf5
+palette = 8=#4a6082
+palette = 9=#a0b9e9
+palette = 10=#9ad5df
+palette = 11=#c8d9f0
+palette = 12=#8cb7ff
+palette = 13=#c0b9ee
+palette = 14=#a5e3f3
+palette = 15=#e3ebff
 
 # Keep text opaque while Hyprland blurs the transparent background.
 background-opacity = 0.95
